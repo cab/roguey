@@ -1,0 +1,27 @@
+*.iml
+target/
+.idea/
+*.log
+.DS_STORE
+scalastyle-output.xml
+.capistrano
+# emacs temp files
+.\#*
+\#*
+.sbtopts
+.ensime
+.ensime_cache/
+
+.pants.d
+dist
+.pids
+.pants.workdir.file_lock
+.cache
+
+.pants.*
+ensime.sbt
+.agignore
+
+target
+
+node_modules

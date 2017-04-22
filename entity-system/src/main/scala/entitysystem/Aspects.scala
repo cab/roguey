@@ -1,0 +1,3 @@
+package entitysystem
+
+trait Aspect
