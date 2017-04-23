@@ -11,11 +11,12 @@ import concurrent.duration._
 class GameClient {
   implicit val context = ExecutionContext.fromExecutor(Executors.newSingleThreadExecutor())
 
-  val netClient = new NetClient(NetClientConfig(
-    host ="localhost",
-    tcpPort = 5959,
-    udpPort = 5960
-  ))
+  val netClient = new NetClient(
+    NetClientConfig(
+      host = "localhost",
+      tcpPort = 5959,
+      udpPort = 5960
+    ))
   netClient.start
 
   val world: MutableWorld = new MutableWorld()

@@ -6,15 +6,15 @@ import scala.concurrent.{ExecutionContext, Future}
 import com.twitter.logging.Logger
 
 final case class NetClientConfig(
-  host: String,
-  tcpPort: Int,
-  udpPort: Int,
-  timeout: Int = 5000
+    host: String,
+    tcpPort: Int,
+    udpPort: Int,
+    timeout: Int = 5000
 )
 
 class NetClient(config: NetClientConfig) {
   private val kryoClient: Client = new Client
-  private val logger = Logger(getClass)
+  private val logger             = Logger(getClass)
 
   def start(): Unit = {
     Register.register(kryoClient.getKryo)
@@ -26,14 +26,15 @@ class NetClient(config: NetClientConfig) {
       }
 
       override def received(connection: Connection, packet: Any): Unit = packet match {
-        case packet: Packet => packet match {
-          case CreateEntity(entity) => println(entity)
-          case RemoveEntity(entity) => println(entity)
-          case LoadMap(_) => logger.info("Loading map")
-          case Login(_) => ???
-        }
-        case keepAlive: com.esotericsoftware.kryonet.FrameworkMessage$KeepAlive => 
-        case ignored => logger.warning(s"ignoring packet: $ignored")
+        case packet: Packet =>
+          packet match {
+            case CreateEntity(entity) => println(entity)
+            case RemoveEntity(entity) => println(entity)
+            case LoadMap(_)           => logger.info("Loading map")
+            case Login(_)             => ???
+          }
+        case keepAlive: com.esotericsoftware.kryonet.FrameworkMessage$KeepAlive =>
+        case ignored                                                            => logger.warning(s"ignoring packet: $ignored")
       }
     })
     kryoClient.start()

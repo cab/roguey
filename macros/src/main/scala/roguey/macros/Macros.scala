@@ -5,8 +5,8 @@ import scala.language.experimental.macros
 import scala.annotation.StaticAnnotation
 
 /**
-* A packet is like a `case class` with mutable fields and a no-arg constructor
-*/
+  * A packet is like a `case class` with mutable fields and a no-arg constructor
+  */
 class packet[T] extends StaticAnnotation {
   def macroTransform(annottees: Any*): Any = macro packetMacro.impl
 }
@@ -17,7 +17,6 @@ object packetMacro {
     val result = {
       annottees.map(_.tree).toList match {
         case r @ q"class $name(..$fields) extends $ex with ..$w { ..$body }" :: Nil =>
-
           val fieldTypes = fields.map {
             case q"$accessors val $name: $tpe = $v" => tpe
             case fail =>
@@ -58,7 +57,7 @@ object packetMacro {
             .withStart(defaultCtorPos.start + 1)
             .withPoint(defaultCtorPos.point + 1)
           val newCtor = q"def this() = this(..$fieldDefaults)"
-          val x = q"""
+          val x       = q"""
           class $name(..$updatedFields) extends $ex with ..$w {
             ${atPos(newCtorPos)(newCtor)}
           }

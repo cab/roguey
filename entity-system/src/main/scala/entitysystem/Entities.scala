@@ -4,7 +4,7 @@ import reflect._
 
 class Entities(private val entities: Map[Int, Entity]) {
   lazy val values: List[Entity] = entities.values.toList
-  override def toString = values.mkString("Entities(", ", ", ")")
+  override def toString         = values.mkString("Entities(", ", ", ")")
 
   def findAll(x: ClassTag[_ <: Aspect], xs: ClassTag[_ <: Aspect]*): List[Entity] = {
     val keys = (x +: xs)
@@ -43,6 +43,5 @@ object Entities {
 
     new Entities(entities)
   }
-
 
 }

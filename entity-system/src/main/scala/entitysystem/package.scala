@@ -1,2 +1,1 @@
-package object entitysystem {
-}
+package object entitysystem {}

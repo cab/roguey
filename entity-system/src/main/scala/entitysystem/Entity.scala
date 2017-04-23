@@ -3,13 +3,14 @@ package entitysystem
 import reflect._
 
 class Entity private (
-  val id: Int,
-  val aspects: Map[ClassTag[_ <: Aspect], _ <: Aspect]
+    val id: Int,
+    val aspects: Map[ClassTag[_ <: Aspect], _ <: Aspect]
 ) {
 
   val keys: Set[ClassTag[_ <: Aspect]] = aspects.keys.toSet
 
-  def apply[A <: Aspect](implicit tag: ClassTag[A]): Option[A] = aspects.get(tag).map(_.asInstanceOf[A])
+  def apply[A <: Aspect](implicit tag: ClassTag[A]): Option[A] =
+    aspects.get(tag).map(_.asInstanceOf[A])
 
   override def toString =
     s"""Entity(${id}, ${aspects.values.map(_.toString).mkString(", ")})"""

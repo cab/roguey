@@ -13,10 +13,11 @@ class GameServer {
 
   def start(): Unit = {
     println("Starting")
-    val netServer = new NetServer(NetServerConfig(
-      tcpPort = 5959,
-      udpPort = 5960
-    ))
+    val netServer = new NetServer(
+      NetServerConfig(
+        tcpPort = 5959,
+        udpPort = 5960
+      ))
     netServer.start
     netServer.sendTCP(CreateEntity(Entity(2, "hi")))
   }

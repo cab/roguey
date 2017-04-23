@@ -10,12 +10,11 @@ import com.googlecode.lanterna.screen.TerminalScreen
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory
 import com.googlecode.lanterna.terminal.Terminal
 
-
 class RenderSystem extends System {
 
   private val screen = {
     val defaultTerminalFactory = new DefaultTerminalFactory()
-    val term = defaultTerminalFactory.createTerminalEmulator
+    val term                   = defaultTerminalFactory.createTerminalEmulator
     new TerminalScreen(term)
   }
 
@@ -33,11 +32,7 @@ class RenderSystem extends System {
     Nil
   }
 
-
   val s = "Hello World!";
-
-
-
 
   screen.refresh()
 

@@ -6,7 +6,7 @@ trait Event
 
 sealed trait WorldEvent extends Event
 
-final case class AddEntity(entity: Entity) extends WorldEvent
+final case class AddEntity(entity: Entity)    extends WorldEvent
 final case class RemoveEntity(entity: Entity) extends WorldEvent
 final case class ModifyEntity(entity: Entity) extends WorldEvent
 

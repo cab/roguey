@@ -17,8 +17,8 @@ trait Loop {
   @tailrec
   final def loop(inputProcessor: InputProcessor, updater: Updater): Unit = {
     var lag: Long = 0
-    val current = System.nanoTime
-    val elapsed = current - last
+    val current   = System.nanoTime
+    val elapsed   = current - last
     last = current
     lag += elapsed
 
@@ -38,10 +38,9 @@ trait Loop {
 
 object Loop extends Loop {
   type InputProcessor = () => Unit
-  type Updater = Int => Unit
+  type Updater        = Int => Unit
 
   implicit val context = ExecutionContext.fromExecutor(Executors.newSingleThreadExecutor())
-
 
   def run(inputProcessor: InputProcessor, updater: Updater): Future[Unit] = {
     Future {

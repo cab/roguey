@@ -6,7 +6,6 @@ sealed trait NetValue
 
 sealed trait Packet extends NetValue
 
-
 @packet class Location(x: Long, y: Long) extends NetValue
 
 @packet class MapEntity(location: Location) extends NetValue
