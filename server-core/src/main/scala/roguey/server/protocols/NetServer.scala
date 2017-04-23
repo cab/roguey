@@ -7,8 +7,8 @@ import scala.concurrent.{ExecutionContext, Future}
 import com.twitter.logging.Logger
 
 final case class NetServerConfig(
-    tcpPort: Int,
-    udpPort: Int
+  tcpPort: Int,
+  udpPort: Int
 )
 
 trait NetServerListener {}

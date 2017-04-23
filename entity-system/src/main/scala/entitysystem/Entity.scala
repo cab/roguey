@@ -3,8 +3,8 @@ package entitysystem
 import reflect._
 
 class Entity private (
-    val id: Int,
-    val aspects: Map[ClassTag[_ <: Aspect], _ <: Aspect]
+  val id: Int,
+  val aspects: Map[ClassTag[_ <: Aspect], _ <: Aspect]
 ) {
 
   val keys: Set[ClassTag[_ <: Aspect]] = aspects.keys.toSet

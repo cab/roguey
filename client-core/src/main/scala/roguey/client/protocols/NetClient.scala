@@ -6,10 +6,10 @@ import scala.concurrent.{ExecutionContext, Future}
 import com.twitter.logging.Logger
 
 final case class NetClientConfig(
-    host: String,
-    tcpPort: Int,
-    udpPort: Int,
-    timeout: Int = 5000
+  host: String,
+  tcpPort: Int,
+  udpPort: Int,
+  timeout: Int = 5000
 )
 
 class NetClient(config: NetClientConfig) {
