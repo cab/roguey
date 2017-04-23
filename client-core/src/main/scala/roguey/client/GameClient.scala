@@ -20,6 +20,8 @@ class GameClient {
   netClient.start
 
   val world: MutableWorld = new MutableWorld()
+  world.addSystem(new roguey.systems.NetSystem(netClient))
+  world.addSystem(new systems.MapSystem())
   world.addSystem(new systems.RenderSystem())
 
   engine.Loop.run(() => (), deltaTime => {

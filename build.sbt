@@ -51,7 +51,7 @@ lazy val serverCore = (project in file("server-core"))
   )
 
 lazy val commonCore = (project in file("common-core"))
-  .dependsOn(macros)
+  .dependsOn(macros, entitySystem)
   .settings(commonSettings: _*)
   .settings(
     libraryDependencies ++= Seq(

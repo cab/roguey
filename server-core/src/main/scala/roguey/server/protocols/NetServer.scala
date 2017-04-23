@@ -11,11 +11,14 @@ final case class NetServerConfig(
   udpPort: Int
 )
 
-trait NetServerListener {}
+class NetServer(config: NetServerConfig) extends Endpoint {
+  private val kryoServer: Server                = new Server(8192, 2048)
+  private val logger                            = Logger(getClass)
+  private var listeners: Seq[EndpointListener] = Nil
 
-class NetServer(config: NetServerConfig) {
-  private val kryoServer: Server = new Server
-  private val logger             = Logger(getClass)
+  override def addListener(listener: EndpointListener): Unit = {
+    listeners = listeners :+ listener
+  }
 
   def start(): Unit = {
     Register.register(kryoServer.getKryo)
@@ -24,14 +27,15 @@ class NetServer(config: NetServerConfig) {
     kryoServer.addListener(new Listener {
       override def received(connection: Connection, packet: Any): Unit = packet match {
         case packet: Packet =>
-          packet match {
-            case CreateEntity(entity) => println(entity)
-            case RemoveEntity(entity) => println(entity)
-            case Login(username)      => logger.info(":)")
-            case LoadMap(_) =>
-              logger.warning(s"Client should not send $packet")
-              connection.close
-          }
+          listeners.foreach(_.onPacket(packet, connection))
+        // packet match {
+        //   case CreateEntity(entity) => println(entity)
+        //   case RemoveEntity(entity) => println(entity)
+        //   case Login(username)      => logger.info(":)")
+        //   case LoadMap(_) =>
+        //     logger.warning(s"Client should not send $packet")
+        //     connection.close
+        // }
         case keepAlive: com.esotericsoftware.kryonet.FrameworkMessage$KeepAlive =>
         case ignored                                                            => logger.warning(s"ignoring packet: $ignored")
       }

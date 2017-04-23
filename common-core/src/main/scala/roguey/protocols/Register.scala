@@ -9,8 +9,15 @@ import reflect._
 
 object Register {
   def register(implicit kryo: Kryo): Seq[Registration] = {
-    println(Sealed.classes[NetValue])
-    Sealed.classes[NetValue].map(c => kryo.register(c)).toSeq
+    val classes: Seq[Class[_]] = Sealed.classes[NetValue].toSeq ++
+      (Sealed
+        .classes[NetValue]
+        .map(c => java.lang.reflect.Array.newInstance(c, 0).getClass())) ++
+      Seq[Class[_]](
+        classOf[Array[String]],
+        classOf[Array[Int]]
+      )
+    classes.map(c => kryo.register(c)).toSeq
   }
 
   private def register[T](implicit kryo: Kryo, tag: ClassTag[T]): Registration = {

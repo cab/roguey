@@ -40,9 +40,8 @@ object Loop extends Loop {
   type InputProcessor = () => Unit
   type Updater        = Int => Unit
 
-  implicit val context = ExecutionContext.fromExecutor(Executors.newSingleThreadExecutor())
-
-  def run(inputProcessor: InputProcessor, updater: Updater): Future[Unit] = {
+  def run(inputProcessor: InputProcessor, updater: Updater)(
+    implicit context: ExecutionContext): Future[Unit] = {
     Future {
       loop(inputProcessor, updater)
     }

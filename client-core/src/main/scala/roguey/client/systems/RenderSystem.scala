@@ -14,7 +14,8 @@ class RenderSystem extends System {
 
   private val screen = {
     val defaultTerminalFactory = new DefaultTerminalFactory()
-    val term                   = defaultTerminalFactory.createTerminalEmulator
+    defaultTerminalFactory.setForceTextTerminal(true)
+    val term = defaultTerminalFactory.createTerminalEmulator
     new TerminalScreen(term)
   }
 
@@ -22,19 +23,17 @@ class RenderSystem extends System {
 
   private val graphics = screen.newTextGraphics()
 
+  var buffer = ""
+
   def process(delta: Float, entities: Entities, events: Seq[Event]): Seq[Event] = {
     val input = screen.pollInput()
     if (input != null) {
+      buffer += input.getCharacter.toString
       screen.clear()
-      graphics.putString(10, 10, input.getCharacter.toString)
+      graphics.putString(10, 10, buffer)
     }
     screen.refresh()
     Nil
   }
 
-  val s = "Hello World!";
-
-  screen.refresh()
-
-  screen.readInput()
 }

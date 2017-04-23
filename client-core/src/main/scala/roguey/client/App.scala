@@ -10,7 +10,7 @@ import concurrent.duration._
 
 object App extends _root_.scala.App {
 
-  implicit val context = ExecutionContext.fromExecutor(Executors.newSingleThreadExecutor())
+  implicit val serverContext = ExecutionContext.fromExecutor(Executors.newSingleThreadExecutor())
 
   Future {
     val server = new GameServer()

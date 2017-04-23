@@ -12,9 +12,14 @@ final case class NetClientConfig(
   timeout: Int = 5000
 )
 
-class NetClient(config: NetClientConfig) {
+class NetClient(config: NetClientConfig) extends Endpoint {
   private val kryoClient: Client = new Client
   private val logger             = Logger(getClass)
+  private var listeners: Seq[EndpointListener] = Nil
+
+  override def addListener(listener: EndpointListener): Unit = {
+    listeners = listeners :+ listener
+  }
 
   def start(): Unit = {
     Register.register(kryoClient.getKryo)
@@ -27,12 +32,13 @@ class NetClient(config: NetClientConfig) {
 
       override def received(connection: Connection, packet: Any): Unit = packet match {
         case packet: Packet =>
-          packet match {
-            case CreateEntity(entity) => println(entity)
-            case RemoveEntity(entity) => println(entity)
-            case LoadMap(_)           => logger.info("Loading map")
-            case Login(_)             => ???
-          }
+          listeners.foreach(_.onPacket(packet, connection))
+          // packet match {
+          //   case CreateEntity(entity) => println(entity)
+          //   case RemoveEntity(entity) => println(entity)
+          //   case LoadMap(_)           => logger.info("Loading map")
+          //   case Login(_)             => ???
+          // }
         case keepAlive: com.esotericsoftware.kryonet.FrameworkMessage$KeepAlive =>
         case ignored                                                            => logger.warning(s"ignoring packet: $ignored")
       }

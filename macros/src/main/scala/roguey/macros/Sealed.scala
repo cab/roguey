@@ -5,7 +5,7 @@ import scala.language.experimental.macros
 import scala.annotation.StaticAnnotation
 
 object Sealed {
-  def classes[A]: Set[Class[_]] = macro classes_impl[A]
+  def classes[A]: Seq[Class[_]] = macro classes_impl[A]
 
   def classes_impl[A: c.WeakTypeTag](c: Context) = {
     import c.universe._
@@ -27,11 +27,11 @@ object Sealed {
         val base = baseSymbol.asClass.knownDirectSubclasses.map(_.asClass).toSeq
         base.filter(_.isTrait).filter(_.isSealed) match {
           case Nil  => base
-          case list => list.flatMap(i => getClasses(i)) ++ base
+          case list => list.flatMap(i => getClasses(i)) ++ list
         }
       }
       val allClasses = getClasses(symbol)
-      q"Set[Class[_]](..${allClasses.map(c => q"classOf[$c]")})"
+      q"Seq[Class[_]](..${allClasses.map(c => q"classOf[$c]")})"
     }
   }
 }
